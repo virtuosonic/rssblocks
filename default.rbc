@@ -1,0 +1,9 @@
+<html>
+<head>
+	<title>Code::Blocks Developer News</title>
+</head>
+<body>
+<p align=center><font size=+2>$(CHANNEL_TITLE)</font></p>
+$(FEEDS)
+</body>
+</html>
