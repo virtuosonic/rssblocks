@@ -29,6 +29,11 @@ Licence:
 
 ChangeLog:
 ==========
+    0.2 Mar 28 2011:
+    -changed default url
+    -fixed: now the update time is really in minutes
+    -links are open in the default web browser
+    -Documented with doxygen
     0.1 Mar 16 2011:
     -first release
 

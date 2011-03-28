@@ -6,12 +6,15 @@
  * Copyright: Gabriel Espinoza
  * License: GPLv3+
  **************************************************************/
- #ifndef RSSBLOCKSCFGDLG_H
-#define RSSBLOCKSCFGDLG_H
+ #ifndef _RSSBLOCKSCFGDLG_H_
+#define _RSSBLOCKSCFGDLG_H_
 
 #include <configurationpanel.h>
 
-
+/**@brief Rss::Blocks config panel
+  *
+  * This panel is shown in the environment config dialog
+  */
 class RssBlocksCfgDlg : public cbConfigurationPanel
 {
 	public:

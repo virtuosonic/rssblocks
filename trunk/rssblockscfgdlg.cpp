@@ -47,24 +47,24 @@ RssBlocksCfgDlg::RssBlocksCfgDlg(wxWindow* parent,wxWindowID id)
 	SetSizer(topSizer);
 	topSizer->Fit(this);
 	//read config
-	ConfigManager* cfg = Manager::Get()->GetConfigManager(rssblocks::rss_namespace);
+	ConfigManager* cfg = Manager::Get()->GetConfigManager(rssblocksdef::rss_namespace);
 	//url
 	wxString str;
-	str = cfg->Read(rssblocks::url,rssblocks::url_def);
+	str = cfg->Read(rssblocksdef::url,rssblocksdef::url_def);
 	wxDynamicCast(FindWindow(ID_URL),wxTextCtrl)->SetValue(str);
 	//channel template
-	str = cfg->Read(rssblocks::channeltp,rssblocks::channeltp_def);
+	str = cfg->Read(rssblocksdef::channeltp,rssblocksdef::channeltp_def);
 	wxDynamicCast(FindWindow(ID_CTPL),wxFilePickerCtrl)->SetPath(str);
 	//item template
-	str = cfg->Read(rssblocks::itemtp,rssblocks::itemtp_def);
+	str = cfg->Read(rssblocksdef::itemtp,rssblocksdef::itemtp_def);
 	wxDynamicCast(FindWindow(ID_ITPL),wxFilePickerCtrl)->SetPath(str);
 	//update time
-	int updatetime = rssblocks::updatetime_def;
-	cfg->Read(rssblocks::updatetime,&updatetime);
+	int updatetime = rssblocksdef::updatetime_def;
+	cfg->Read(rssblocksdef::updatetime,&updatetime);
 	wxDynamicCast(FindWindow(ID_UPTIME),wxSpinCtrl)->SetValue(updatetime);
 	//save temp
-	bool savetmp = rssblocks::savetmp_def;
-	cfg->ReadBool(rssblocks::savetmp,&savetmp);
+	bool savetmp = rssblocksdef::savetmp_def;
+	cfg->ReadBool(rssblocksdef::savetmp,&savetmp);
 	wxDynamicCast(FindWindow(ID_SAVETMP),wxCheckBox)->SetValue(savetmp);
 }
 
@@ -87,7 +87,7 @@ void RssBlocksCfgDlg::OnCancel()
   */
 void RssBlocksCfgDlg::OnApply()
 {
-	ConfigManager* cfg = Manager::Get()->GetConfigManager(rssblocks::rss_namespace);
+	ConfigManager* cfg = Manager::Get()->GetConfigManager(rssblocksdef::rss_namespace);
 	//url
 	cfg->Write(wxT("url"),wxDynamicCast(
 		FindWindow(ID_URL),wxTextCtrl)->GetValue());

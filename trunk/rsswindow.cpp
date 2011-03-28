@@ -12,32 +12,73 @@
 #include <wx/textfile.h>
 #include <wx/filesys.h>
 
+/**@page tpl_p Html Templates
+  * Rss::Blocks can be customized by using html,
+  * to customize the Rss::Blocks window you
+  * need two files one .rbc file and one .rbi file.
+  * The .rbc is a Rss::Blocks channel template and the
+  * .rbi is a Rss::Blocks item template, basicly they are
+  * html but with some variables that are expanded
+  * by Rss::Blocks.
+  * @section rbc_sec rbc file
+  * The rbc file is a html file that contain some
+  * of this optional variables:
+  *   @li <b>@$(CHANNEL_TITLE):</b> the channel's title
+  *   @li <b>@$(CHANNEL_LINK):</b> the channel's link
+  *   @li <b>@$(CHANNEL_DESCRIPTION):</b> a description for the channel
+  *   @li <b>@$(FEEDS):</b> the feeds, this are generated from the rbi file
+  * @section rbi_sec rbi file
+  * The rbi file is the one used to
+  * generate each one of the feeds
+  * shown in the window,
+  * it isn't a html file but contains
+  * html tags and can contain some
+  * of this optional variables:
+  *   @li <b>@$(TITLE):</b> the feed's title
+  *   @li <b>@$(LINK):</b> the feed's link
+  *   @li <b>@$(DESCRIPTION):</b> a description for the feed
+  * @section tplex_sec Examples
+  * For examples you can see default.rbc and
+  * default.rbi from the distribution. Rss::Blocks
+  * uses wxHtmlWindow to display the generated
+  * html and because of that it is very limited, no
+  * css, javascript etc. Adding support for wxWebConnect
+  * is planned for future releases, so then it will
+  * support all that modern features.
+  */
+
 const long rsswindow::ID_RSSTIMER = wxNewId();
+const long rsswindow::ID_RSSLINK = wxNewId();
 
 BEGIN_EVENT_TABLE(rsswindow,wxHtmlWindow)
 	EVT_TIMER(ID_RSSTIMER,rsswindow::OnSearchUpdates)
+	EVT_HTML_LINK_CLICKED(ID_RSSLINK,rsswindow::OnLink)
 END_EVENT_TABLE()
 
 
-/** @brief rsswindow
+/** @brief Constructor
   *
-  * @todo: document this function
+  * Creates an object
+  * @param parent the parent for this window
+  * @param id the id for this window
   */
 rsswindow::rsswindow(wxWindow* parent,wxWindowID id)
 {
 	Create(parent,id);
 	timer1.SetOwner(this,ID_RSSTIMER);
-	ConfigManager* cfg = Manager::Get()->GetConfigManager(rssblocks::rss_namespace);
-	int updatetime = cfg->ReadInt(rssblocks::updatetime,rssblocks::updatetime_def);
-	// TODO (gabriel#1#): cambiar a 60000 para el release
-	updatetime *= 1000;
+	ConfigManager* cfg = Manager::Get()->GetConfigManager(rssblocksdef::rss_namespace);
+	int updatetime = cfg->ReadInt(rssblocksdef::updatetime,rssblocksdef::updatetime_def);
+	//convert to minutes
+	updatetime *= 60000;
 	timer1.Start(updatetime);
-	GetRss(cfg->Read(rssblocks::url,rssblocks::url_def));
+	GetRss(cfg->Read(rssblocksdef::url,rssblocksdef::url_def));
+	Connect(GetId(),wxEVT_COMMAND_HTML_LINK_CLICKED,
+			(wxObjectEventFunction)&rsswindow::OnLink);
 }
 
-/** @brief ~rsswindow
+/** @brief Destructor
   *
-  * @todo: document this function
+  * Destroys this object, does nothing
   */
 rsswindow::~rsswindow()
 {
@@ -52,8 +93,8 @@ rsswindow::~rsswindow()
 
 void rsswindow::OnSearchUpdates(wxTimerEvent& event)
 {
-	ConfigManager* cfg = Manager::Get()->GetConfigManager(rssblocks::rss_namespace);
-	GetRss(cfg->Read(rssblocks::url,rssblocks::url_def));
+	ConfigManager* cfg = Manager::Get()->GetConfigManager(rssblocksdef::rss_namespace);
+	GetRss(cfg->Read(rssblocksdef::url,rssblocksdef::url_def));
 }
 
 /** @brief Update
@@ -88,19 +129,22 @@ void rsswindow::GetRss(const wxString& url)
 		}
 		delete rss_data;
 	}
-	else{}
+	else
+	{
+		SetPage(_("The channel you selected may be invalid or unreachable."));
+	}
 	delete fs;
 }
 
 wxString rsswindow::BuildHtml(rsschannel* channel)
 {
-	ConfigManager* cfg = Manager::Get()->GetConfigManager(rssblocks::rss_namespace);
+	ConfigManager* cfg = Manager::Get()->GetConfigManager(rssblocksdef::rss_namespace);
 	//
 	if (!channel)
 		throw -3;
 	//open file
     wxTextFile item_text_file;
-    wxString item_file = cfg->Read(rssblocks::itemtp,rssblocks::itemtp_def);
+    wxString item_file = cfg->Read(rssblocksdef::itemtp,rssblocksdef::itemtp_def);
     wxFileName fname = item_file;
     if (fname.IsRelative())
 		fname = cfg->LocateDataFile(item_file);
@@ -126,7 +170,7 @@ wxString rsswindow::BuildHtml(rsschannel* channel)
     }
     //open channel preset
     wxTextFile channel_text_file;
-    wxString channel_file = cfg->Read(rssblocks::channeltp,rssblocks::channeltp_def);
+    wxString channel_file = cfg->Read(rssblocksdef::channeltp,rssblocksdef::channeltp_def);
     fname = channel_file ;
     if (fname.IsRelative())
 		fname = cfg->LocateDataFile(channel_file );

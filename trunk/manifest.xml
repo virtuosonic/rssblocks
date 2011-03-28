@@ -3,7 +3,7 @@
     <SdkVersion major="1" minor="11"  release="12" />
     <Plugin name="rssblocks">
         <Value title="Rss::Blocks" />
-        <Value version="0.1" />
+        <Value version="0.2" />
         <Value description="A rss feeds reader" />
         <Value author="Gabriel Espinoza" />
         <Value authorEmail="virtuosonic@users.sourceforge.net" />

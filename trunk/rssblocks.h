@@ -21,6 +21,11 @@
 
 class rsswindow;
 
+/**@brief Rss::Blocks plugin class
+  *
+  * This is the where this plugin starts
+  * running
+  */
 class rssblocks : public cbPlugin
 {
 	public:
@@ -135,4 +140,4 @@ class rssblocks : public cbPlugin
 		DECLARE_EVENT_TABLE();
 };
 
-#endif // rssblocks_H_INCLUDED
+#endif // _RSSBLOCKS_H_

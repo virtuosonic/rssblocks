@@ -8,6 +8,11 @@
  **************************************************************/
 #include "rsschannel.h"
 
+/** @brief Constructor
+ *
+ * This creates an rsschannel object
+ *@param rssdoc an inputstream containing xml rss data
+ */
 rsschannel::rsschannel(wxInputStream& rssdoc)
 {
 	//ctor
@@ -26,6 +31,10 @@ rsschannel::rsschannel(wxInputStream& rssdoc)
 	}
 }
 
+/**@brief Destructor
+ *
+ * Does nothing
+ */
 rsschannel::~rsschannel()
 {
 	//dtor
@@ -33,7 +42,8 @@ rsschannel::~rsschannel()
 
 /** @brief FindChannel
   *
-  * @todo: document this function
+  * Finds the channel node
+  *@param node an xml node
   */
 void rsschannel::FindChannel(wxXmlNode* node)
 {

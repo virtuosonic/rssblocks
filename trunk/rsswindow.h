@@ -13,6 +13,14 @@
 #include <wx/timer.h>
 #include "rsschannel.h"
 
+/**@brief Rss::Blocks window
+  *
+  * This is simply a html window,
+  * this class also manages the
+  * timer, downloads the
+  * xml data and generates the html
+  * from the @ref tpl_p
+  */
 class rsswindow : public wxHtmlWindow
 {
 	public:
@@ -30,13 +38,13 @@ class rsswindow : public wxHtmlWindow
 		//update window
 		void Update(rsschannel* channel);
 		//generate html code
-		wxString BuildHtml(rsschannel* channel);
+		wxString BuildHtml(rsschannel* channel) throw int;
 		//const
 		static const long ID_RSSTIMER;
+		static const long ID_RSSLINK;
 		//
 		rsschannel* m_channel;
 		wxTimer timer1;
-		wxString htmLog;
 	DECLARE_EVENT_TABLE();
 };
 
