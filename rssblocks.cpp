@@ -1,6 +1,6 @@
 /***************************************************************
- * Name:      rsschannel.cpp
- * Purpose:   rsschannel class implementation
+ * Name:      rssblocks.cpp
+ * Purpose:   rssblocks plugin implementation
  * Author:    Gabriel Espinoza
  * Created:   2011-02-26
  * Copyright: Gabriel Espinoza
@@ -8,8 +8,22 @@
  **************************************************************/
 #include <sdk.h> // Code::Blocks SDK
 #include <configurationpanel.h>
+#include <wx/menu.h>
 #include "rssblocks.h"
 #include "rsswindow.h"
+
+/**@mainpage Rss::Blocks Developer Documentation
+  *
+  * Thanks for trying this software, this is the documentation of
+  * Rss::Blocks, Rss::Blocks is a codeblocks plugin
+  * that shows rss feeds from the channel of your choice in a window
+  * that can easily be customized using @ref tpl_p
+  *
+  * - @ref install_p
+  * - @ref tpl_p
+  *
+  *@author Gabriel Espinoza <a href="http://virtuosonic.users.sourceforge.net">virtuosonic at  sf_net</a>
+  */
 
 // Register the plugin with Code::Blocks.
 // We are using an anonymous namespace so we don't litter the global one.
@@ -18,6 +32,14 @@ namespace
 PluginRegistrant<rssblocks> reg(_T("rssblocks"));
 }
 
+/**@page install_p Installation
+  * To install Rss::Blocks follow this instructions
+  *   - Download the latest release
+  *   - Build Rss::Blocks with Code::Blocks
+  *   - Copy default.rbc and default.rbi to the share/CodeBlocks/ folder
+  *   - Copy rssblocks.png and rssblocks-off.png to the share/CodeBlocks/images/settings/ folder
+  *   - Then install rssblocks.cbplugin with "Manage Plugins"
+  */
 const long rssblocks::ID_RSSMENU = wxNewId();
 // events handling
 BEGIN_EVENT_TABLE(rssblocks, cbPlugin)
@@ -25,7 +47,10 @@ BEGIN_EVENT_TABLE(rssblocks, cbPlugin)
 	// add any events you want to handle here
 END_EVENT_TABLE()
 
-// constructor
+/**@brief constructor
+  *
+  * Called by Code::Blocks PluginManager
+  */
 rssblocks::rssblocks()
 {
 	// Make sure our resources are available.
@@ -37,14 +62,17 @@ rssblocks::rssblocks()
 	}
 }
 
-// destructor
+/**@brief destructor
+  *
+  * Does nothing
+  */
 rssblocks::~rssblocks()
 {
 }
 
 void rssblocks::OnAttach()
 {
-	m_window = new rsswindow(Manager::Get()->GetAppWindow(),wxID_ANY);
+	m_window = new rsswindow(Manager::Get()->GetAppWindow(),wxNewId());
 	CodeBlocksDockEvent evt(cbEVT_ADD_DOCK_WINDOW);
     evt.name = _T("RssPane");
     evt.title = _("Rss::Blocks");
@@ -96,33 +124,18 @@ void rssblocks::BuildMenu(wxMenuBar* menuBar)
 	helpMenu->Insert(2,ID_RSSMENU,_("RSS Feeds"),
 		_("Read your favorite RSS channel"))->SetBitmap(
 			wxXmlResource::Get()->LoadBitmap(wxT("rssmenu")));
-	//The application is offering its menubar for your plugin,
-	//to add any menu items you want...
-	//Append any items you need in the menu...
-	//NOTE: Be careful in here... The application's menubar is at your disposal.
 }
 
 void rssblocks::BuildModuleMenu(const ModuleType type, wxMenu* menu, const FileTreeData* data)
 {
 	/**Not supported**/
-	//Some library module is ready to display a pop-up menu.
-	//Check the parameter \"type\" and see which module it is
-	//and append any items you need in the menu...
-	//TIP: for consistency, add a separator as the first item...
 	NotImplemented(_T("rssblocks::BuildModuleMenu()"));
 }
 
 bool rssblocks::BuildToolBar(wxToolBar* toolBar)
 {
-	//The application is offering its toolbar for your plugin,
-	//to add any toolbar items you want...
-	//Append any items you need on the toolbar...
-	//NotImplemented(_T("rssblocks::BuildToolBar()"));
-//	toolBar->AddTool(wxID_ANY,wxEmptyString,
-//					wxXmlResource::Get()->LoadBitmap(_T("rss")));
-
-	// return true if you add toolbar items
-	return false;
+		/**Not supported**/
+		return false;
 }
 //
 //void rssblocks::OnNewFeed(wxCommandEvent& event)

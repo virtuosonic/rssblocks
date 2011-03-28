@@ -12,10 +12,16 @@
 #include <manager.h>
 #include <configmanager.h>
 
-namespace rssblocks
+
+/**@brief Rss::Blocks const's
+  *
+  * This are the paths to config settings
+  * and the default values
+  */
+namespace rssblocksdef
 {
 	//configuration namespace
-	const wxString rss_namespace = wxT("rss__Blocks");
+	const wxString rss_namespace = wxT("rssblocks");
 	//configuration names
 	const wxString url = wxT("url");
 	const wxString channeltp = wxT("channeltp");
@@ -23,9 +29,9 @@ namespace rssblocks
 	const wxString updatetime = wxT("updatetime");
 	const wxString savetmp = wxT("savetmp");
 	//configuration default values;
-	//const wxString url_def = wxT("http://agender.sourceforge.net/rss.xml");
+	const wxString url_def = wxT("http://agender.sourceforge.net/rss.xml");
 	// TODO (gabriel#1#): change to above value for release
-	const wxString url_def = wxT("http://127.0.0.1/rss.xml");
+	//const wxString url_def = wxT("http://127.0.0.1/rss.xml");
 	const wxString channeltp_def = wxT("default.rbc");
 	const wxString itemtp_def = wxT("default.rbi");
 	const unsigned updatetime_def = 10;

@@ -12,18 +12,22 @@
 #include <wx/xml/xml.h>
 #include <wx/dynarray.h>
 
+/**@brief A rss item
+  *
+  * Represents a rss item
+  */
 class rssitem
 {
 	public:
-		/** Default constructor */
-		rssitem(wxXmlNode* node);
-		/** Default destructor */
+		rssitem(wxXmlNode* node) throw int;
 		~rssitem();
 		//accessors
+		/**Returns the description of the item*/
 		const wxString& Getdesc() {return m_desc;}
+		/**Returns the title of the item*/
 		const wxString& Gettitle() {return m_title;}
+		/**Returns the link of the item*/
 		const wxString& Getlink() {return m_link;}
-	protected:
 	private:
 		void Setlink(wxString val) {m_link = val;}
 		void Settitle(wxString val) {m_title = val;}

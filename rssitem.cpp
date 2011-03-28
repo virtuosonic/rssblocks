@@ -8,6 +8,15 @@
  **************************************************************/
 #include "rssitem.h"
 
+/**@brief Constructor
+  *
+  * Reads a rssitem object from a xml node,
+  * the node usually is managed from a
+  * wxXmlDocument so  it isn't deleted
+  * or modified by rssitem
+  *
+  *@param node a xml node containing the item
+  */
 rssitem::rssitem(wxXmlNode* node)
 {
 	m_node = node;
@@ -36,6 +45,10 @@ rssitem::rssitem(wxXmlNode* node)
 	}
 }
 
+/**@brief Destructor
+  *
+  * Does nothing
+  */
 rssitem::~rssitem()
 {
 	//dtor
