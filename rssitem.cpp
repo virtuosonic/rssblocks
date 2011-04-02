@@ -17,7 +17,7 @@
   *
   *@param node a xml node containing the item
   */
-rssitem::rssitem(wxXmlNode* node)
+rssitem::rssitem(wxXmlNode* node) throw (int)
 {
 	m_node = node;
 	if (m_node->GetName() != wxT("item"))

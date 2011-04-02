@@ -9,8 +9,10 @@
 
 #include "rsswindow.h"
 #include "rssblocksdef.h"
+#include <logmanager.h>
 #include <wx/textfile.h>
 #include <wx/filesys.h>
+#include <wx/wfstream.h>
 
 /**@page tpl_p Html Templates
   * Rss::Blocks can be customized by using html,
@@ -53,6 +55,7 @@ const long rsswindow::ID_RSSLINK = wxNewId();
 BEGIN_EVENT_TABLE(rsswindow,wxHtmlWindow)
 	EVT_TIMER(ID_RSSTIMER,rsswindow::OnSearchUpdates)
 	EVT_HTML_LINK_CLICKED(ID_RSSLINK,rsswindow::OnLink)
+	EVT_KEY_DOWN(rsswindow::OnKey)//for update
 END_EVENT_TABLE()
 
 
@@ -67,10 +70,7 @@ rsswindow::rsswindow(wxWindow* parent,wxWindowID id)
 	Create(parent,id);
 	timer1.SetOwner(this,ID_RSSTIMER);
 	ConfigManager* cfg = Manager::Get()->GetConfigManager(rssblocksdef::rss_namespace);
-	int updatetime = cfg->ReadInt(rssblocksdef::updatetime,rssblocksdef::updatetime_def);
-	//convert to minutes
-	updatetime *= 60000;
-	timer1.Start(updatetime);
+	InitUpdateTime();
 	GetRss(cfg->Read(rssblocksdef::url,rssblocksdef::url_def));
 	Connect(GetId(),wxEVT_COMMAND_HTML_LINK_CLICKED,
 			(wxObjectEventFunction)&rsswindow::OnLink);
@@ -91,7 +91,7 @@ rsswindow::~rsswindow()
   */
 
 
-void rsswindow::OnSearchUpdates(wxTimerEvent& event)
+void rsswindow::OnSearchUpdates(wxTimerEvent& WXUNUSED(event))
 {
 	ConfigManager* cfg = Manager::Get()->GetConfigManager(rssblocksdef::rss_namespace);
 	GetRss(cfg->Read(rssblocksdef::url,rssblocksdef::url_def));
@@ -115,14 +115,39 @@ void rsswindow::Update(rsschannel* channel)
 void rsswindow::GetRss(const wxString& url)
 {
 	wxFileSystem* fs = new wxFileSystem;
-	wxFSFile* rss_data = fs->OpenFile(url);
+	wxFSFile* rss_data = fs->OpenFile(url,wxFS_READ | wxFS_SEEKABLE);
+	ConfigManager* cfg = Manager::Get()->GetConfigManager(rssblocksdef::rss_namespace);
 	if (rss_data)
 	{
 		wxInputStream* is = rss_data->GetStream();
 		try {
-			rsschannel* n_channel = new rsschannel(*is);
-			Update(n_channel);
-			delete n_channel;
+			rsschannel n_channel(*is);
+			Update(&n_channel);
+			//write temp data
+			if (cfg->ReadBool(rssblocksdef::savetmp,rssblocksdef::savetmp_def))
+			{
+				//path
+				wxFileName rsstmp;
+				rsstmp.AssignDir(cfg->GetFolder(sdTemp));
+				rsstmp.AppendDir(wxT("rssblocks"));
+				//create dir
+				if (!wxDirExists(rsstmp.GetPath()))
+					wxMkDir(rsstmp.GetPath());
+				//name
+				rsstmp.SetName(n_channel.Gettitle());
+				rsstmp.SetExt(wxT("xml"));
+				wxFileOutputStream rssout(rsstmp.GetFullPath());
+				//must return to start or
+				//won't copy anything
+				is->SeekI(0);
+				rssout.Write(*is);
+				//log
+				Manager::Get()->GetLogManager()->Log(
+					wxString::Format(_T("saved rss temp to: %s"),
+					rsstmp.GetFullPath().c_str()));
+				cfg->Write(rssblocksdef::lasttmp,rsstmp.GetFullPath());
+			}
+			//delete n_channel;
 		}
 		catch (...)
 		{
@@ -131,12 +156,26 @@ void rsswindow::GetRss(const wxString& url)
 	}
 	else
 	{
-		SetPage(_("The channel you selected may be invalid or unreachable."));
+		bool usetemp = cfg->ReadBool(rssblocksdef::savetmp,
+				rssblocksdef::savetmp_def);
+		wxString tempfile(cfg->Read(rssblocksdef::lasttmp,
+				wxEmptyString));
+		if (usetemp && wxFileExists(tempfile))
+		{
+			Manager::Get()->GetLogManager()->Log(_("Rss::Blocks: using temporary data"));
+			wxFileInputStream is(tempfile);
+			try {
+				rsschannel n_channel(is);
+				Update(&n_channel);
+			}catch (...){}
+		}
+		else
+			SetPage(_("The channel you selected may be invalid or unreachable."));
 	}
 	delete fs;
 }
 
-wxString rsswindow::BuildHtml(rsschannel* channel)
+wxString rsswindow::BuildHtml(rsschannel* channel) throw (int)
 {
 	ConfigManager* cfg = Manager::Get()->GetConfigManager(rssblocksdef::rss_namespace);
 	//
@@ -199,3 +238,32 @@ void rsswindow::OnLink(wxHtmlLinkEvent& event)
 	wxLaunchDefaultBrowser(event.GetLinkInfo().GetHref());
 }
 
+/** @brief OnKey
+  *
+  * handles F5, for Refresh
+  */
+void rsswindow::OnKey(wxKeyEvent& event)
+{
+	//process F5
+	if (event.GetKeyCode() == WXK_F5)
+	{
+		ConfigManager* cfg = Manager::Get()->GetConfigManager(
+				rssblocksdef::rss_namespace);
+		GetRss(cfg->Read(rssblocksdef::url,rssblocksdef::url_def));
+	}
+	else
+		event.Skip();//pass to parent
+}
+
+/** read timer settings from config */
+void rsswindow::InitUpdateTime()
+{
+	ConfigManager* cfg = Manager::Get()->GetConfigManager(rssblocksdef::rss_namespace);
+	//read how much minutes
+	int updatetime = cfg->ReadInt(rssblocksdef::updatetime,rssblocksdef::updatetime_def);
+	//convert to minutes
+	updatetime *= 60000;
+	timer1.Start(updatetime);
+	Manager::Get()->GetLogManager()->Log(
+	wxString::Format(_T("Update time set to: %i"),updatetime));
+}

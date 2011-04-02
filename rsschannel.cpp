@@ -13,7 +13,7 @@
  * This creates an rsschannel object
  *@param rssdoc an inputstream containing xml rss data
  */
-rsschannel::rsschannel(wxInputStream& rssdoc)
+rsschannel::rsschannel(wxInputStream& rssdoc) throw (int)
 {
 	//ctor
 	m_doc.Load(rssdoc);

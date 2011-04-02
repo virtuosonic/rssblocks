@@ -6,8 +6,8 @@
  * Copyright: Gabriel Espinoza
  * License: GPLv3+
  **************************************************************/
-#ifndef _RSSCHANNEL_H_
-#define _RSSCHANNEL_H_
+#ifndef RSSCHANNEL_H
+#define RSSCHANNEL_H
 
 #include "rssitem.h"
 #include <wx/xml/xml.h>
@@ -21,7 +21,7 @@
 class rsschannel
 {
 	public:
-		rsschannel(wxInputStream& rssdoc) throw int;
+		rsschannel(wxInputStream& rssdoc) throw (int);
 		virtual ~rsschannel();
 		//accessors
 		/**Returns an array containing the items in this channel*/
@@ -45,4 +45,4 @@ class rsschannel
 		inline void AddItem(wxXmlNode* node);
 };
 
-#endif // _RSSCHANNEL_H_
+#endif // RSSCHANNEL_H

@@ -6,10 +6,12 @@
  * Copyright: Gabriel Espinoza
  * License: GPLv3+
  **************************************************************/
- #ifndef _RSSBLOCKSCFGDLG_H_
-#define _RSSBLOCKSCFGDLG_H_
+ #ifndef RSSBLOCKSCFGDLG_H
+#define RSSBLOCKSCFGDLG_H
 
 #include <configurationpanel.h>
+#include <wx/event.h>
+
 
 /**@brief Rss::Blocks config panel
   *
@@ -18,7 +20,7 @@
 class RssBlocksCfgDlg : public cbConfigurationPanel
 {
 	public:
-		RssBlocksCfgDlg(wxWindow* parent,wxWindowID id);
+		RssBlocksCfgDlg(wxEvtHandler* evt,wxWindow* parent,wxWindowID id);
 		virtual ~RssBlocksCfgDlg();
 		virtual wxString GetTitle() const {return wxT("Rss::Blocks");}
         virtual wxString GetBitmapBaseName() const {return wxT("rssblocks");}
@@ -30,6 +32,7 @@ class RssBlocksCfgDlg : public cbConfigurationPanel
 		static const long ID_ITPL;
 		static const long ID_UPTIME;
 		static const long ID_SAVETMP;
+		wxEvtHandler* p_evt;
 	DECLARE_EVENT_TABLE();
 };
 
