@@ -26,19 +26,21 @@ class rsswindow : public wxHtmlWindow
 	public:
 		rsswindow(wxWindow* parent,wxWindowID id);
 		~rsswindow();
+		void InitUpdateTime();
 
 	private:
 		//event handlers
 		void OnSearchUpdates(wxTimerEvent& event);
-		void OnNewFeed(wxCommandEvent& event);
+		//void OnNewFeed(wxCommandEvent& event);
 		void OnLink(wxHtmlLinkEvent& event);
+		void OnKey(wxKeyEvent& event);
 		//private methods
 		//downloads rss data
 		void GetRss(const wxString& url);
 		//update window
 		void Update(rsschannel* channel);
 		//generate html code
-		wxString BuildHtml(rsschannel* channel) throw int;
+		wxString BuildHtml(rsschannel* channel) throw (int);
 		//const
 		static const long ID_RSSTIMER;
 		static const long ID_RSSLINK;

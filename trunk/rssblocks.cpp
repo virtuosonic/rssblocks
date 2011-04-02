@@ -12,16 +12,21 @@
 #include "rssblocks.h"
 #include "rsswindow.h"
 
-/**@mainpage Rss::Blocks Developer Documentation
+/**@mainpage Rss::Blocks
   *
-  * Thanks for trying this software, this is the documentation of
-  * Rss::Blocks, Rss::Blocks is a codeblocks plugin
+  * @image html rss1.png
+  * Rss::Blocks is a codeblocks plugin
   * that shows rss feeds from the channel of your choice in a window
   * that can easily be customized using @ref tpl_p
   *
   * - @ref install_p
   * - @ref tpl_p
-  *
+  * @section Download
+  * You can download Rss::Blocks
+  * from the file manager at sourceforge.
+  * There you should find a zip file
+  * containing the source code, datafiles
+  * and the Code::Blocks project to build it.
   *@author Gabriel Espinoza <a href="http://virtuosonic.users.sourceforge.net">virtuosonic at  sf_net</a>
   */
 
@@ -35,15 +40,19 @@ PluginRegistrant<rssblocks> reg(_T("rssblocks"));
 /**@page install_p Installation
   * To install Rss::Blocks follow this instructions
   *   - Download the latest release
-  *   - Build Rss::Blocks with Code::Blocks
-  *   - Copy default.rbc and default.rbi to the share/CodeBlocks/ folder
-  *   - Copy rssblocks.png and rssblocks-off.png to the share/CodeBlocks/images/settings/ folder
-  *   - Then install rssblocks.cbplugin with "Manage Plugins"
+  *   - Uncompress it
+  *   - open rssblocks.bp
+  *   - build the default target
+  *   - build the install target
+  *
   */
+
 const long rssblocks::ID_RSSMENU = wxNewId();
+const long rssblocks::ID_RSSCFGDLG = wxNewId();
 // events handling
 BEGIN_EVENT_TABLE(rssblocks, cbPlugin)
 	EVT_MENU(ID_RSSMENU,rssblocks::OnMenuRss)
+	EVT_MENU(ID_RSSCFGDLG,rssblocks::OnUpdateCfg)
 	// add any events you want to handle here
 END_EVENT_TABLE()
 
@@ -91,7 +100,7 @@ void rssblocks::OnAttach()
 	// (see: does not need) this plugin...
 }
 
-void rssblocks::OnRelease(bool appShutDown)
+void rssblocks::OnRelease(bool WXUNUSED(appShutDown))
 {
 	// do de-initialization for your plugin
 	// if appShutDown is true, the plugin is unloaded because Code::Blocks is being shut down,
@@ -99,7 +108,7 @@ void rssblocks::OnRelease(bool appShutDown)
 	// NOTE: after this function, the inherited member variable
 	// m_IsAttached will be FALSE...
 	CodeBlocksDockEvent evt(cbEVT_REMOVE_DOCK_WINDOW);
-    //evt.name = _T("RssPane");
+    evt.name = _T("RssPane");
     evt.pWindow = m_window;
 	m_window->Destroy();
 }
@@ -126,18 +135,20 @@ void rssblocks::BuildMenu(wxMenuBar* menuBar)
 			wxXmlResource::Get()->LoadBitmap(wxT("rssmenu")));
 }
 
-void rssblocks::BuildModuleMenu(const ModuleType type, wxMenu* menu, const FileTreeData* data)
+void rssblocks::BuildModuleMenu(const ModuleType
+		WXUNUSED(type), wxMenu* WXUNUSED(menu),
+		const FileTreeData* WXUNUSED(data))
 {
 	/**Not supported**/
 	NotImplemented(_T("rssblocks::BuildModuleMenu()"));
 }
 
-bool rssblocks::BuildToolBar(wxToolBar* toolBar)
+bool rssblocks::BuildToolBar(wxToolBar* WXUNUSED(toolBar))
 {
 		/**Not supported**/
 		return false;
 }
-//
+
 //void rssblocks::OnNewFeed(wxCommandEvent& event)
 //{
 //	InfoWindow::Display(wxT("Rss::Blocks"),
@@ -148,7 +159,7 @@ bool rssblocks::BuildToolBar(wxToolBar* toolBar)
   *
   * @todo: document this function
   */
-void rssblocks::OnMenuRss(wxCommandEvent& event)
+void rssblocks::OnMenuRss(wxCommandEvent& WXUNUSED(event))
 {
 	if (m_window)
 	{
@@ -159,3 +170,9 @@ void rssblocks::OnMenuRss(wxCommandEvent& event)
 		Manager::Get()->ProcessEvent(evt);
 	}
 }
+
+void rssblocks::OnUpdateCfg(wxCommandEvent& event)
+{
+	m_window->InitUpdateTime();
+}
+

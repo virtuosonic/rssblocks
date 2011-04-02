@@ -10,9 +10,11 @@
 				<Option output="rssblocks" prefix_auto="1" extension_auto="1" />
 				<Option type="3" />
 				<Option compiler="gcc" />
-				<Option parameters="--debug-log --no-check-associations -ns -nd --safe-mode" />
+				<Option parameters="--debug-log --no-check-associations -ns -nd" />
 				<Option host_application="$(#cb)\devel\codeblocks.exe" />
 				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add option="-pipe" />
 					<Add option="-mthreads" />
@@ -44,27 +46,85 @@
 					<Add after="zip -j9 rssblocks.cbplugin rssblocks.dll rssblocks.zip" />
 				</ExtraCommands>
 			</Target>
+			<Target title="install">
+				<Option type="4" />
+				<Option compiler="gcc" />
+				<ExtraCommands>
+					<Add after='$(CMD_CP) &quot;$(PROJECT_DIR)/default.rbc&quot; &quot;$(PREFIX_DIR)/default.rbc&quot;' />
+					<Add after='$(CMD_CP) &quot;$(PROJECT_DIR)/default.rbi&quot; &quot;$(PREFIX_DIR)/default.rbi&quot;' />
+					<Add after='$(CMD_CP) &quot;$(PROJECT_DIR)/rssblocks.png&quot; &quot;$(PREFIX_DIR)/images/settings/rssblocks.png&quot;' />
+					<Add after='$(CMD_CP) &quot;$(PROJECT_DIR)/rssblocks-off.png&quot; &quot;$(PREFIX_DIR)/images/settings/rssblocks-off.png&quot;' />
+					<Add after='[[ InstallPlugin(_T(&quot;rssblocks.cbplugin&quot;),true,true); ]]' />
+					<Mode after="always" />
+				</ExtraCommands>
+				<Environment>
+					<Variable name="PREFIX_DIR" value="$(DATAPATH)" />
+				</Environment>
+			</Target>
 		</Build>
-		<Unit filename="Readme.txt" />
-		<Unit filename="default.rbc" />
-		<Unit filename="default.rbi" />
-		<Unit filename="manifest.xml" />
-		<Unit filename="rssblocks.cpp" />
-		<Unit filename="rssblocks.h" />
-		<Unit filename="rssblocks.xrc" />
-		<Unit filename="rssblockscfgdlg.cpp" />
-		<Unit filename="rssblockscfgdlg.h" />
-		<Unit filename="rssblocksdef.h" />
-		<Unit filename="rsschannel.cpp" />
-		<Unit filename="rsschannel.h" />
-		<Unit filename="rssitem.cpp" />
-		<Unit filename="rssitem.h" />
-		<Unit filename="rsswindow.cpp" />
-		<Unit filename="rsswindow.h" />
+		<Unit filename="Readme.txt">
+			<Option target="default" />
+		</Unit>
+		<Unit filename="default.rbc">
+			<Option target="install" />
+		</Unit>
+		<Unit filename="default.rbi">
+			<Option target="install" />
+		</Unit>
+		<Unit filename="manifest.xml">
+			<Option target="default" />
+		</Unit>
+		<Unit filename="rssblocks-off.png">
+			<Option compiler="gcc" use="0" buildCommand="\n" />
+			<Option target="install" />
+		</Unit>
+		<Unit filename="rssblocks.cpp">
+			<Option target="default" />
+		</Unit>
+		<Unit filename="rssblocks.h">
+			<Option target="default" />
+		</Unit>
+		<Unit filename="rssblocks.png">
+			<Option target="install" />
+		</Unit>
+		<Unit filename="rssblocks.xrc">
+			<Option target="default" />
+		</Unit>
+		<Unit filename="rssblockscfgdlg.cpp">
+			<Option target="default" />
+		</Unit>
+		<Unit filename="rssblockscfgdlg.h">
+			<Option target="default" />
+		</Unit>
+		<Unit filename="rssblocksdef.h">
+			<Option target="default" />
+		</Unit>
+		<Unit filename="rsschannel.cpp">
+			<Option target="default" />
+		</Unit>
+		<Unit filename="rsschannel.h">
+			<Option target="default" />
+		</Unit>
+		<Unit filename="rssitem.cpp">
+			<Option target="default" />
+		</Unit>
+		<Unit filename="rssitem.h">
+			<Option target="default" />
+		</Unit>
+		<Unit filename="rsswindow.cpp">
+			<Option target="default" />
+		</Unit>
+		<Unit filename="rsswindow.h">
+			<Option target="default" />
+		</Unit>
 		<Extensions>
 			<code_completion />
 			<envvars />
-			<debugger />
+			<debugger>
+				<search_path add="$(#cb)\include" />
+				<search_path add="$(#cb)\src" />
+				<search_path add="$(#cb)" />
+			</debugger>
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

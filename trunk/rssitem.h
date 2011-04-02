@@ -19,7 +19,7 @@
 class rssitem
 {
 	public:
-		rssitem(wxXmlNode* node) throw int;
+		rssitem(wxXmlNode* node) throw (int);
 		~rssitem();
 		//accessors
 		/**Returns the description of the item*/
