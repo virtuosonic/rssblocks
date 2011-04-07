@@ -30,6 +30,11 @@ Licence:
 
 ChangeLog:
 ==========
+    0.4 - Abr 2011:
+    -Added link to documentation in config panel
+    -Fixed the bitmap for the cfg panel
+    -Grouped controls inside static boxes
+
     0.3 - 1 Abr 2011:
     -F5 forces update inmediatedly
     -feeds are stored in temp folder
@@ -58,9 +63,12 @@ TODO:
 
 Bugs:
 =====
-    If you disable or uninstall this plugin or quit CodeBlocks
+    -If you disable or uninstall this plugin or quit CodeBlocks
     while the plugin's window is floating it surely will crash
     Code::Blocks, give it a try.
+    -If you have Rss::Blocks installed to update you must
+    uninstall it restart codeblocks and then install the new
+    version, else it crashes codeblocks
 
 Author:
 =======

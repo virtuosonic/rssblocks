@@ -30,7 +30,7 @@
   *@author Gabriel Espinoza <a href="http://virtuosonic.users.sourceforge.net">virtuosonic at  sf_net</a>
   */
 
-// Register the plugin with Code::Blocks.
+// Registere the plugin with Code::Blocks.
 // We are using an anonymous namespace so we don't litter the global one.
 namespace
 {
@@ -45,6 +45,9 @@ PluginRegistrant<rssblocks> reg(_T("rssblocks"));
   *   - build the default target
   *   - build the install target
   *
+  * NOTE: If you have Rss::Blocks installed, to update you must
+  * uninstall it, restart codeblocks and then install the new
+  * version.
   */
 
 const long rssblocks::ID_RSSMENU = wxNewId();
@@ -84,7 +87,7 @@ void rssblocks::OnAttach()
 	m_window = new rsswindow(Manager::Get()->GetAppWindow(),wxNewId());
 	CodeBlocksDockEvent evt(cbEVT_ADD_DOCK_WINDOW);
     evt.name = _T("RssPane");
-    evt.title = _("Rss::Blocks");
+    evt.title = _T("Rss::Blocks");
     evt.pWindow = m_window;
     evt.shown = true;
     evt.dockSide = CodeBlocksDockEvent::dsFloating;
@@ -116,7 +119,7 @@ void rssblocks::OnRelease(bool WXUNUSED(appShutDown))
 int rssblocks::Configure()
 {
 	//create and display the configuration dialog for your plugin
-	cbConfigurationDialog dlg(Manager::Get()->GetAppWindow(), wxID_ANY, _("Your dialog title"));
+	cbConfigurationDialog dlg(Manager::Get()->GetAppWindow(), wxID_ANY, _("Rss::Clocks settings"));
 	cbConfigurationPanel* panel = GetConfigurationPanel(&dlg);
 	if (panel)
 	{
@@ -171,7 +174,7 @@ void rssblocks::OnMenuRss(wxCommandEvent& WXUNUSED(event))
 	}
 }
 
-void rssblocks::OnUpdateCfg(wxCommandEvent& event)
+void rssblocks::OnUpdateCfg(wxCommandEvent& WXUNUSED(event))
 {
 	m_window->InitUpdateTime();
 }
