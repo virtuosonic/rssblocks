@@ -32,6 +32,7 @@ class RssBlocksCfgDlg : public cbConfigurationPanel
 		static const long ID_ITPL;
 		static const long ID_UPTIME;
 		static const long ID_SAVETMP;
+		static const long ID_LINK;
 		wxEvtHandler* p_evt;
 	DECLARE_EVENT_TABLE();
 };
