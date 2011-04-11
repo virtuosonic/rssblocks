@@ -17,8 +17,9 @@
 #include <wx/checkbox.h>
 #include <wx/uri.h>
 #include <wx/hyperlink.h>
-#include <wx/richtext/richtextctrl.h>
 
+namespace rssblocks{
+/**WindowID's*/
 const long RssBlocksCfgDlg::ID_URL = wxNewId();
 const long RssBlocksCfgDlg::ID_CTPL = wxNewId();
 const long RssBlocksCfgDlg::ID_ITPL = wxNewId();
@@ -67,29 +68,28 @@ RssBlocksCfgDlg::RssBlocksCfgDlg(wxEvtHandler* evt,wxWindow* parent,wxWindowID i
 	topSizer->Add(new wxHyperlinkCtrl(this,ID_LINK,
 			_("Learn how to use and create html templates."),
 			_T("http://rssblocks.sourceforge.net")),1);
-	topSizer->Add(new wxRichTextCtrl(this),1,wxEXPAND);
 	//set sizer
 	SetSizer(topSizer);
 	topSizer->Fit(this);
 	//read config
-	ConfigManager* cfg = Manager::Get()->GetConfigManager(rssblocksdef::rss_namespace);
+	ConfigManager* cfg = Manager::Get()->GetConfigManager(rssblocks::rss_namespace);
 	//url
 	wxString str;
-	str = cfg->Read(rssblocksdef::url,rssblocksdef::url_def);
+	str = cfg->Read(rssblocks::url,rssblocks::url_def);
 	wxDynamicCast(FindWindow(ID_URL),wxTextCtrl)->SetValue(str);
 	//channel template
-	str = cfg->Read(rssblocksdef::channeltp,rssblocksdef::channeltp_def);
+	str = cfg->Read(rssblocks::channeltp,rssblocks::channeltp_def);
 	wxDynamicCast(FindWindow(ID_CTPL),wxFilePickerCtrl)->SetPath(str);
 	//item template
-	str = cfg->Read(rssblocksdef::itemtp,rssblocksdef::itemtp_def);
+	str = cfg->Read(rssblocks::itemtp,rssblocks::itemtp_def);
 	wxDynamicCast(FindWindow(ID_ITPL),wxFilePickerCtrl)->SetPath(str);
 	//update time
-	int updatetime = rssblocksdef::updatetime_def;
-	cfg->Read(rssblocksdef::updatetime,&updatetime);
+	int updatetime = rssblocks::updatetime_def;
+	cfg->Read(rssblocks::updatetime,&updatetime);
 	wxDynamicCast(FindWindow(ID_UPTIME),wxSpinCtrl)->SetValue(updatetime);
 	//save temp
-	bool savetmp = rssblocksdef::savetmp_def;
-	savetmp = cfg->ReadBool(rssblocksdef::savetmp,rssblocksdef::savetmp_def);
+	bool savetmp = rssblocks::savetmp_def;
+	savetmp = cfg->ReadBool(rssblocks::savetmp,rssblocks::savetmp_def);
 	wxDynamicCast(FindWindow(ID_SAVETMP),wxCheckBox)->SetValue(savetmp);
 	//tooltips
 	FindWindow(ID_URL)->SetToolTip(_("The url to the rss data, like http://agender.sf.net/rss.xml"));
@@ -112,7 +112,7 @@ void RssBlocksCfgDlg::OnCancel()
 
 void RssBlocksCfgDlg::OnApply()
 {
-	ConfigManager* cfg = Manager::Get()->GetConfigManager(rssblocksdef::rss_namespace);
+	ConfigManager* cfg = Manager::Get()->GetConfigManager(rssblocks::rss_namespace);
 	//url
 	wxURI uri_check(wxDynamicCast(
 			FindWindow(ID_URL),wxTextCtrl)->GetValue());
@@ -130,3 +130,4 @@ void RssBlocksCfgDlg::OnApply()
 	event.SetEventObject(this);
 	wxPostEvent(p_evt,event);
 }
+}//namespace rssblocks

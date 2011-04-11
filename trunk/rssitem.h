@@ -4,7 +4,7 @@
  * Author:    Gabriel Espinoza
  * Created:   2011-02-26
  * Copyright: Gabriel Espinoza
- * License: GPLv3+
+ * License: LGPLv3+
  **************************************************************/
 #ifndef RSSITEM_H
 #define RSSITEM_H
@@ -12,6 +12,7 @@
 #include <wx/xml/xml.h>
 #include <wx/dynarray.h>
 
+namespace virtuosonic {
 /**@brief A rss item
   *
   * Represents a rss item
@@ -40,5 +41,6 @@ class rssitem
 };
 
 WX_DEFINE_ARRAY(rssitem*,rssitemsarray);
+}//namespace virtuosonic
 
 #endif // RSSITEM_H

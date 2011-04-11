@@ -31,17 +31,16 @@
   */
 
 // Registere the plugin with Code::Blocks.
-// We are using an anonymous namespace so we don't litter the global one.
-namespace
+namespace rssblocks
 {
-PluginRegistrant<rssblocks> reg(_T("rssblocks"));
-}
+PluginRegistrant<RssBlocksPlugin> reg(_T("rssblocks"));
+
 
 /**@page install_p Installation
   * To install Rss::Blocks follow this instructions
   *   - Download the latest release
   *   - Uncompress it
-  *   - open rssblocks.bp
+  *   - open rssblocks.cbp
   *   - build the default target
   *   - build the install target
   *
@@ -50,12 +49,14 @@ PluginRegistrant<rssblocks> reg(_T("rssblocks"));
   * version.
   */
 
-const long rssblocks::ID_RSSMENU = wxNewId();
-const long rssblocks::ID_RSSCFGDLG = wxNewId();
+
+/**WindowID's*/
+const long RssBlocksPlugin::ID_RSSMENU = wxNewId();
+const long RssBlocksPlugin::ID_RSSCFGDLG = wxNewId();
 // events handling
-BEGIN_EVENT_TABLE(rssblocks, cbPlugin)
-	EVT_MENU(ID_RSSMENU,rssblocks::OnMenuRss)
-	EVT_MENU(ID_RSSCFGDLG,rssblocks::OnUpdateCfg)
+BEGIN_EVENT_TABLE(RssBlocksPlugin, cbPlugin)
+	EVT_MENU(ID_RSSMENU,RssBlocksPlugin::OnMenuRss)
+	EVT_MENU(ID_RSSCFGDLG,RssBlocksPlugin::OnUpdateCfg)
 	// add any events you want to handle here
 END_EVENT_TABLE()
 
@@ -63,7 +64,7 @@ END_EVENT_TABLE()
   *
   * Called by Code::Blocks PluginManager
   */
-rssblocks::rssblocks()
+RssBlocksPlugin::RssBlocksPlugin()
 {
 	// Make sure our resources are available.
 	// In the generated boilerplate code we have no resources but when
@@ -78,11 +79,11 @@ rssblocks::rssblocks()
   *
   * Does nothing
   */
-rssblocks::~rssblocks()
+RssBlocksPlugin::~RssBlocksPlugin()
 {
 }
 
-void rssblocks::OnAttach()
+void RssBlocksPlugin::OnAttach()
 {
 	m_window = new rsswindow(Manager::Get()->GetAppWindow(),wxNewId());
 	CodeBlocksDockEvent evt(cbEVT_ADD_DOCK_WINDOW);
@@ -103,7 +104,7 @@ void rssblocks::OnAttach()
 	// (see: does not need) this plugin...
 }
 
-void rssblocks::OnRelease(bool WXUNUSED(appShutDown))
+void RssBlocksPlugin::OnRelease(bool WXUNUSED(appShutDown))
 {
 	// do de-initialization for your plugin
 	// if appShutDown is true, the plugin is unloaded because Code::Blocks is being shut down,
@@ -116,7 +117,7 @@ void rssblocks::OnRelease(bool WXUNUSED(appShutDown))
 	m_window->Destroy();
 }
 
-int rssblocks::Configure()
+int RssBlocksPlugin::Configure()
 {
 	//create and display the configuration dialog for your plugin
 	cbConfigurationDialog dlg(Manager::Get()->GetAppWindow(), wxID_ANY, _("Rss::Clocks settings"));
@@ -130,7 +131,7 @@ int rssblocks::Configure()
 	return -1;
 }
 
-void rssblocks::BuildMenu(wxMenuBar* menuBar)
+void RssBlocksPlugin::BuildMenu(wxMenuBar* menuBar)
 {
 	wxMenu* helpMenu = menuBar->GetMenu(menuBar->GetMenuCount() - 1);
 	helpMenu->Insert(2,ID_RSSMENU,_("RSS Feeds"),
@@ -138,21 +139,21 @@ void rssblocks::BuildMenu(wxMenuBar* menuBar)
 			wxXmlResource::Get()->LoadBitmap(wxT("rssmenu")));
 }
 
-void rssblocks::BuildModuleMenu(const ModuleType
+void RssBlocksPlugin::BuildModuleMenu(const ModuleType
 		WXUNUSED(type), wxMenu* WXUNUSED(menu),
 		const FileTreeData* WXUNUSED(data))
 {
 	/**Not supported**/
-	NotImplemented(_T("rssblocks::BuildModuleMenu()"));
+	NotImplemented(_T("RssBlocksPlugin::BuildModuleMenu()"));
 }
 
-bool rssblocks::BuildToolBar(wxToolBar* WXUNUSED(toolBar))
+bool RssBlocksPlugin::BuildToolBar(wxToolBar* WXUNUSED(toolBar))
 {
 		/**Not supported**/
 		return false;
 }
 
-//void rssblocks::OnNewFeed(wxCommandEvent& event)
+//void RssBlocksPlugin::OnNewFeed(wxCommandEvent& event)
 //{
 //	InfoWindow::Display(wxT("Rss::Blocks"),
 //		wxT("New feed found on channel: %s\n%s\n%s"));
@@ -162,7 +163,7 @@ bool rssblocks::BuildToolBar(wxToolBar* WXUNUSED(toolBar))
   *
   * @todo: document this function
   */
-void rssblocks::OnMenuRss(wxCommandEvent& WXUNUSED(event))
+void RssBlocksPlugin::OnMenuRss(wxCommandEvent& WXUNUSED(event))
 {
 	if (m_window)
 	{
@@ -174,8 +175,8 @@ void rssblocks::OnMenuRss(wxCommandEvent& WXUNUSED(event))
 	}
 }
 
-void rssblocks::OnUpdateCfg(wxCommandEvent& WXUNUSED(event))
+void RssBlocksPlugin::OnUpdateCfg(wxCommandEvent& WXUNUSED(event))
 {
 	m_window->InitUpdateTime();
 }
-
+}//namespace rssblocks

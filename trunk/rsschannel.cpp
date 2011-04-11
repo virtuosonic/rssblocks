@@ -4,30 +4,32 @@
  * Author:    Gabriel Espinoza
  * Created:   2011-02-26
  * Copyright: Gabriel Espinoza
- * License: GPLv3+
+ * License: LGPLv3+
  **************************************************************/
 #include "rsschannel.h"
+
+namespace virtuosonic {
 
 /** @brief Constructor
  *
  * This creates an rsschannel object
  *@param rssdoc an inputstream containing xml rss data
  */
-rsschannel::rsschannel(wxInputStream& rssdoc) throw (int)
+rsschannel::rsschannel(wxInputStream& rssdoc) throw (std::invalid_argument)
 {
 	//ctor
 	m_doc.Load(rssdoc);
 	wxXmlNode* root = m_doc.GetRoot();
 	//no root!
 	if (root == NULL)
-		throw -1;
+		throw std::invalid_argument("no valid xml data found");
 	//this is a rss
 	if (root->GetName() == wxT("rss"))
 	{
 		FindChannel(root);
 	}
 	else {
-		throw -2;
+		throw std::invalid_argument("no valid rss data found");
 	}
 }
 
@@ -107,4 +109,4 @@ void rsschannel::AddItem(wxXmlNode* node)
 		// TODO (gabriel#1#): handle apropiatedly
 	}
 }
-
+}//namespace rssblocks
