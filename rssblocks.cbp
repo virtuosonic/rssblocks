@@ -116,6 +116,7 @@
 		<Unit filename="rsswindow.h">
 			<Option target="default" />
 		</Unit>
+		<Unit filename="virtuosonic.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

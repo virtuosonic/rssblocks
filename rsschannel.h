@@ -4,14 +4,20 @@
  * Author:    Gabriel Espinoza
  * Created:   2011-02-26
  * Copyright: Gabriel Espinoza
- * License: GPLv3+
+ * License: LGPLv3+
  **************************************************************/
 #ifndef RSSCHANNEL_H
 #define RSSCHANNEL_H
 
 #include "rssitem.h"
 #include <wx/xml/xml.h>
+#include <stdexcept>
 
+namespace virtuosonic {
+
+//class wxInvalidArg :
+//	public std::invalid_argument,public wxException
+//	{};
 /**@brief A rss channel
   *
   * This class represents a rss channel,
@@ -21,7 +27,7 @@
 class rsschannel
 {
 	public:
-		rsschannel(wxInputStream& rssdoc) throw (int);
+		rsschannel(wxInputStream& rssdoc) throw (std::invalid_argument);
 		virtual ~rsschannel();
 		//accessors
 		/**Returns an array containing the items in this channel*/
@@ -44,5 +50,6 @@ class rsschannel
 		inline void FindItems(wxXmlNode* node);
 		inline void AddItem(wxXmlNode* node);
 };
+}//namespace virtuosonic
 
 #endif // RSSCHANNEL_H

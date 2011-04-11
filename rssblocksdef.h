@@ -18,7 +18,7 @@
   * This are the paths to config settings
   * and the default values
   */
-namespace rssblocksdef
+namespace rssblocks
 {
 	//configuration namespace
 	const wxString rss_namespace = wxT("rssblocks");
@@ -37,6 +37,6 @@ namespace rssblocksdef
 	const wxString itemtp_def = wxT("default.rbi");
 	const unsigned updatetime_def = 10;
 	const bool savetmp_def = true;
-}
+}//namespace rssblocks
 
 #endif // RSSBLOCKSDEF_H

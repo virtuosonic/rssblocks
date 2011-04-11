@@ -12,7 +12,7 @@
 #include <configurationpanel.h>
 #include <wx/event.h>
 
-
+namespace rssblocks {
 /**@brief Rss::Blocks config panel
   *
   * This panel is shown in the environment config dialog
@@ -36,5 +36,6 @@ class RssBlocksCfgDlg : public cbConfigurationPanel
 		wxEvtHandler* p_evt;
 	DECLARE_EVENT_TABLE();
 };
+}//namespace rssblocks
 
 #endif // RSSBLOCKSCFGDLG_H

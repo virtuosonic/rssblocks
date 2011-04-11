@@ -4,9 +4,11 @@
  * Author:    Gabriel Espinoza
  * Created:   2011-02-26
  * Copyright: Gabriel Espinoza
- * License: GPLv3+
+ * License: LGPLv3+
  **************************************************************/
 #include "rssitem.h"
+
+namespace virtuosonic{
 
 /**@brief Constructor
   *
@@ -46,10 +48,10 @@ rssitem::rssitem(wxXmlNode* node) throw (int)
 }
 
 /**@brief Destructor
-  *
   * Does nothing
   */
 rssitem::~rssitem()
 {
 	//dtor
 }
+}//namespace rssblocks

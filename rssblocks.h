@@ -18,7 +18,7 @@
 
 #include <cbplugin.h> // for "class cbPlugin"
 #include "rssblockscfgdlg.h"
-
+namespace rssblocks {
 class rsswindow;
 
 /**@brief Rss::Blocks plugin class
@@ -26,13 +26,13 @@ class rsswindow;
   * This is the where this plugin starts
   * running
   */
-class rssblocks : public cbPlugin
+class RssBlocksPlugin : public cbPlugin
 {
 	public:
 		/** Constructor. */
-		rssblocks();
+		RssBlocksPlugin();
 		/** Destructor. */
-		virtual ~rssblocks();
+		virtual ~RssBlocksPlugin();
 
 		virtual int Configure();
 		virtual int GetConfigurationPriority() const {return 50;}
@@ -90,5 +90,6 @@ class rssblocks : public cbPlugin
 		void OnUpdateCfg(wxCommandEvent& event);
 		DECLARE_EVENT_TABLE();
 };
+}//namespace rssblocks
 
 #endif // RSSBLOCKS_H
