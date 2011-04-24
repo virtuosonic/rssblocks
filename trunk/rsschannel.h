@@ -14,10 +14,6 @@
 #include <stdexcept>
 
 namespace virtuosonic {
-
-//class wxInvalidArg :
-//	public std::invalid_argument,public wxException
-//	{};
 /**@brief A rss channel
   *
   * This class represents a rss channel,
@@ -31,7 +27,7 @@ class rsschannel
 		virtual ~rsschannel();
 		//accessors
 		/**Returns an array containing the items in this channel*/
-		rssitemsarray& GetItems() {return items;}
+		const rssitemsarray& GetItems() {return items;}
 		/**Returns the description of the channel*/
 		const wxString& Getdesc() {return m_desc;}
 		/**Returns the title of the channel*/

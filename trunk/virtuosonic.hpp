@@ -16,14 +16,16 @@ namespace virtuosonic
 	#include <exception>
 	#include <wx/string.h>
 	/**@brief exception class for wxWidgets applications
-	  * this function wrap the standard exceptions, can be
+	  * this function wraps the standard exceptions, can be
 	  * useful for use with multiple herence
 	  */
 	class wxException : public std::exception
 	{
 		public:
-			wxException(std::exception e){m_str=wxString::Format(_T("%s"),e.what());}
+			wxException(const std::exception& e){m_str=wxString::Format(_T("%s"),e.what());}
 			wxException(const wxString& arg){m_str = arg;}
+			void operator = (const wxException& rhs) {m_str = rhs.m_str;}
+			void operator = (const std::exception& rhs) {m_str=wxString::Format(_T("%s"),rhs.what());}
 			~wxException() throw(){}
 			wxString what()
 			{
