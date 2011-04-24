@@ -30,10 +30,15 @@ Licence:
 
 ChangeLog:
 ==========
-    0.4 - Abr 2011:
+    0.5 -
+    -fixed doxygen warnings
+    -fixed config panel alignment
+
+    0.4 - 11 Abr 2011:
     -Added link to documentation in config panel
     -Fixed the bitmap for the cfg panel
     -Grouped controls inside static boxes
+    -Groped code into namespaces
 
     0.3 - 1 Abr 2011:
     -F5 forces update inmediatedly

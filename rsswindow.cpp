@@ -58,14 +58,16 @@ const long rsswindow::ID_RSSTIMER = wxNewId();
 const long rsswindow::ID_RSSLINK = wxNewId();
 
 BEGIN_EVENT_TABLE(rsswindow,wxHtmlWindow)
+	//timer
 	EVT_TIMER(ID_RSSTIMER,rsswindow::OnSearchUpdates)
+	//handle external links
 	EVT_HTML_LINK_CLICKED(ID_RSSLINK,rsswindow::OnLink)
-	EVT_KEY_DOWN(rsswindow::OnKey)//for update
+	//for update
+	EVT_KEY_DOWN(rsswindow::OnKey)
 END_EVENT_TABLE()
 
 
-/** @brief Constructor
-  *
+/**@brief Constructor
   * Creates an object
   * @param parent the parent for this window
   * @param id the id for this window
