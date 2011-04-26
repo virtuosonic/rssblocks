@@ -4,14 +4,13 @@
 
 Web:
 ====
-	http://rssblocks.sf.net
+	http://virtuosonic.users.sf.net
 
 Intro:
 ======
     Thanks for trying this software, Rss::Blocks is a codeblocks plugin
     that shows rss feeds from the channel of your choice in a window
-    that can easily be customized using html, to read the online
-    documentation visit the website or read the source code.
+    that can easily be customized using html
 
 Licence:
 ========
@@ -25,36 +24,12 @@ Licence:
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
-    If you dont have a copy of the GNU General Public License
-    visit <http://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU General Public License
+    along with Rss::Blocks. If not, see <http://www.gnu.org/licenses/>.
 
 ChangeLog:
 ==========
-    0.5 -
-    -fixed doxygen warnings
-    -fixed config panel alignment
-
-    0.4 - 11 Abr 2011:
-    -Added link to documentation in config panel
-    -Fixed the bitmap for the cfg panel
-    -Grouped controls inside static boxes
-    -Groped code into namespaces
-
-    0.3 - 1 Abr 2011:
-    -F5 forces update inmediatedly
-    -feeds are stored in temp folder
-    -unvalid url characters are scaped
-    -if opening the requested url fails it uses the temp
-    -fixed warnings
-    -timer changes after changing settings
-
-    0.2 - 28 Mar 2011:
-    -changed default url
-    -fixed: now the update time is really in minutes
-    -links are open in the default web browser
-    -Documented with doxygen
-
-    0.1 - 16 Mar 2011:
+    0.1 Mar 16 2011:
     -first release
 
 TODO:
@@ -68,12 +43,9 @@ TODO:
 
 Bugs:
 =====
-    -If you disable or uninstall this plugin or quit CodeBlocks
+    If you disable or uninstall this plugin or quit CodeBlocks
     while the plugin's window is floating it surely will crash
     Code::Blocks, give it a try.
-    -If you have Rss::Blocks installed to update you must
-    uninstall it restart codeblocks and then install the new
-    version, else it crashes codeblocks
 
 Author:
 =======

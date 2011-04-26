@@ -4,22 +4,11 @@
  * Author:    Gabriel Espinoza
  * Created:   2011-02-26
  * Copyright: Gabriel Espinoza
- * License: LGPLv3+
+ * License: GPLv3+
  **************************************************************/
 #include "rssitem.h"
 
-namespace virtuosonic{
-
-/**@brief Constructor
-  *
-  * Reads a rssitem object from a xml node,
-  * the node usually is managed from a
-  * wxXmlDocument so  it isn't deleted
-  * or modified by rssitem
-  *
-  *@param node a xml node containing the item
-  */
-rssitem::rssitem(wxXmlNode* node) throw (int)
+rssitem::rssitem(wxXmlNode* node)
 {
 	m_node = node;
 	if (m_node->GetName() != wxT("item"))
@@ -47,11 +36,7 @@ rssitem::rssitem(wxXmlNode* node) throw (int)
 	}
 }
 
-/**@brief Destructor
-  * Does nothing
-  */
 rssitem::~rssitem()
 {
 	//dtor
 }
-}//namespace rssblocks

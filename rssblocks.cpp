@@ -1,6 +1,6 @@
 /***************************************************************
- * Name:      rssblocks.cpp
- * Purpose:   rssblocks plugin implementation
+ * Name:      rsschannel.cpp
+ * Purpose:   rsschannel class implementation
  * Author:    Gabriel Espinoza
  * Created:   2011-02-26
  * Copyright: Gabriel Espinoza
@@ -8,62 +8,25 @@
  **************************************************************/
 #include <sdk.h> // Code::Blocks SDK
 #include <configurationpanel.h>
-#include <wx/menu.h>
 #include "rssblocks.h"
 #include "rsswindow.h"
 
-/**@mainpage Rss::Blocks
-  *
-  * @image html rss1.png
-  * Rss::Blocks is a codeblocks plugin
-  * that shows rss feeds from the channel of your choice in a window
-  * that can easily be customized using @ref tpl_p
-  *
-  * - @ref install_p
-  * - @ref tpl_p
-  * @section Download
-  * You can download Rss::Blocks
-  * from the file manager at sourceforge.
-  * There you should find a zip file
-  * containing the source code, datafiles
-  * and the Code::Blocks project to build it.
-  *@author Gabriel Espinoza <a href="http://virtuosonic.users.sourceforge.net">virtuosonic at  sf_net</a>
-  */
-
-namespace rssblocks
-{
 // Register the plugin with Code::Blocks.
-PluginRegistrant<RssBlocksPlugin> reg(_T("rssblocks"));
+// We are using an anonymous namespace so we don't litter the global one.
+namespace
+{
+PluginRegistrant<rssblocks> reg(_T("rssblocks"));
+}
 
-/**@page install_p Installation
-  * To install Rss::Blocks follow this instructions
-  *   - Download the latest release
-  *   - Uncompress it
-  *   - open rssblocks.cbp
-  *   - build the default target
-  *   - build the install target
-  *
-  * NOTE: If you have Rss::Blocks installed, to update you must
-  * uninstall it, restart codeblocks and then install the new
-  * version.
-  */
-
-
-/**WindowID's*/
-const long RssBlocksPlugin::ID_RSSMENU = wxNewId();
-const long RssBlocksPlugin::ID_RSSCFGDLG = wxNewId();
+const long rssblocks::ID_RSSMENU = wxNewId();
 // events handling
-BEGIN_EVENT_TABLE(RssBlocksPlugin, cbPlugin)
-	EVT_MENU(ID_RSSMENU,RssBlocksPlugin::OnMenuRss)
-	EVT_MENU(ID_RSSCFGDLG,RssBlocksPlugin::OnUpdateCfg)
+BEGIN_EVENT_TABLE(rssblocks, cbPlugin)
+	EVT_MENU(ID_RSSMENU,rssblocks::OnMenuRss)
 	// add any events you want to handle here
 END_EVENT_TABLE()
 
-/**@brief constructor
-  *
-  * Called by Code::Blocks PluginManager
-  */
-RssBlocksPlugin::RssBlocksPlugin()
+// constructor
+rssblocks::rssblocks()
 {
 	// Make sure our resources are available.
 	// In the generated boilerplate code we have no resources but when
@@ -74,20 +37,17 @@ RssBlocksPlugin::RssBlocksPlugin()
 	}
 }
 
-/**@brief destructor
-  *
-  * Does nothing
-  */
-RssBlocksPlugin::~RssBlocksPlugin()
+// destructor
+rssblocks::~rssblocks()
 {
 }
 
-void RssBlocksPlugin::OnAttach()
+void rssblocks::OnAttach()
 {
-	m_window = new rsswindow(Manager::Get()->GetAppWindow(),wxNewId());
+	m_window = new rsswindow(Manager::Get()->GetAppWindow(),wxID_ANY);
 	CodeBlocksDockEvent evt(cbEVT_ADD_DOCK_WINDOW);
     evt.name = _T("RssPane");
-    evt.title = _T("Rss::Blocks");
+    evt.title = _("Rss::Blocks");
     evt.pWindow = m_window;
     evt.shown = true;
     evt.dockSide = CodeBlocksDockEvent::dsFloating;
@@ -103,7 +63,7 @@ void RssBlocksPlugin::OnAttach()
 	// (see: does not need) this plugin...
 }
 
-void RssBlocksPlugin::OnRelease(bool WXUNUSED(appShutDown))
+void rssblocks::OnRelease(bool appShutDown)
 {
 	// do de-initialization for your plugin
 	// if appShutDown is true, the plugin is unloaded because Code::Blocks is being shut down,
@@ -111,15 +71,15 @@ void RssBlocksPlugin::OnRelease(bool WXUNUSED(appShutDown))
 	// NOTE: after this function, the inherited member variable
 	// m_IsAttached will be FALSE...
 	CodeBlocksDockEvent evt(cbEVT_REMOVE_DOCK_WINDOW);
-    evt.name = _T("RssPane");
+    //evt.name = _T("RssPane");
     evt.pWindow = m_window;
 	m_window->Destroy();
 }
 
-int RssBlocksPlugin::Configure()
+int rssblocks::Configure()
 {
 	//create and display the configuration dialog for your plugin
-	cbConfigurationDialog dlg(Manager::Get()->GetAppWindow(), wxID_ANY, _("Rss::Clocks settings"));
+	cbConfigurationDialog dlg(Manager::Get()->GetAppWindow(), wxID_ANY, _("Your dialog title"));
 	cbConfigurationPanel* panel = GetConfigurationPanel(&dlg);
 	if (panel)
 	{
@@ -130,29 +90,42 @@ int RssBlocksPlugin::Configure()
 	return -1;
 }
 
-void RssBlocksPlugin::BuildMenu(wxMenuBar* menuBar)
+void rssblocks::BuildMenu(wxMenuBar* menuBar)
 {
 	wxMenu* helpMenu = menuBar->GetMenu(menuBar->GetMenuCount() - 1);
 	helpMenu->Insert(2,ID_RSSMENU,_("RSS Feeds"),
 		_("Read your favorite RSS channel"))->SetBitmap(
 			wxXmlResource::Get()->LoadBitmap(wxT("rssmenu")));
+	//The application is offering its menubar for your plugin,
+	//to add any menu items you want...
+	//Append any items you need in the menu...
+	//NOTE: Be careful in here... The application's menubar is at your disposal.
 }
 
-void RssBlocksPlugin::BuildModuleMenu(const ModuleType
-		WXUNUSED(type), wxMenu* WXUNUSED(menu),
-		const FileTreeData* WXUNUSED(data))
+void rssblocks::BuildModuleMenu(const ModuleType type, wxMenu* menu, const FileTreeData* data)
 {
 	/**Not supported**/
-	NotImplemented(_T("RssBlocksPlugin::BuildModuleMenu()"));
+	//Some library module is ready to display a pop-up menu.
+	//Check the parameter \"type\" and see which module it is
+	//and append any items you need in the menu...
+	//TIP: for consistency, add a separator as the first item...
+	NotImplemented(_T("rssblocks::BuildModuleMenu()"));
 }
 
-bool RssBlocksPlugin::BuildToolBar(wxToolBar* WXUNUSED(toolBar))
+bool rssblocks::BuildToolBar(wxToolBar* toolBar)
 {
-		/**Not supported**/
-		return false;
-}
+	//The application is offering its toolbar for your plugin,
+	//to add any toolbar items you want...
+	//Append any items you need on the toolbar...
+	//NotImplemented(_T("rssblocks::BuildToolBar()"));
+//	toolBar->AddTool(wxID_ANY,wxEmptyString,
+//					wxXmlResource::Get()->LoadBitmap(_T("rss")));
 
-//void RssBlocksPlugin::OnNewFeed(wxCommandEvent& event)
+	// return true if you add toolbar items
+	return false;
+}
+//
+//void rssblocks::OnNewFeed(wxCommandEvent& event)
 //{
 //	InfoWindow::Display(wxT("Rss::Blocks"),
 //		wxT("New feed found on channel: %s\n%s\n%s"));
@@ -162,7 +135,7 @@ bool RssBlocksPlugin::BuildToolBar(wxToolBar* WXUNUSED(toolBar))
   *
   * @todo: document this function
   */
-void RssBlocksPlugin::OnMenuRss(wxCommandEvent& WXUNUSED(event))
+void rssblocks::OnMenuRss(wxCommandEvent& event)
 {
 	if (m_window)
 	{
@@ -173,9 +146,3 @@ void RssBlocksPlugin::OnMenuRss(wxCommandEvent& WXUNUSED(event))
 		Manager::Get()->ProcessEvent(evt);
 	}
 }
-
-void RssBlocksPlugin::OnUpdateCfg(wxCommandEvent& WXUNUSED(event))
-{
-	m_window->InitUpdateTime();
-}
-}//namespace rssblocks
