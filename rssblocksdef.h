@@ -6,8 +6,8 @@
  * Copyright: Gabriel Espinoza
  * License: GPLv3+
  **************************************************************/
-#ifndef RSSBLOCKSDEF_H
-#define RSSBLOCKSDEF_H
+#ifndef _RSSBLOCKSDEF_H_
+#define _RSSBLOCKSDEF_H_
 
 #include <manager.h>
 #include <configmanager.h>
@@ -18,7 +18,7 @@
   * This are the paths to config settings
   * and the default values
   */
-namespace rssblocks
+namespace rssblocksdef
 {
 	//configuration namespace
 	const wxString rss_namespace = wxT("rssblocks");
@@ -28,7 +28,6 @@ namespace rssblocks
 	const wxString itemtp = wxT("itemtp");
 	const wxString updatetime = wxT("updatetime");
 	const wxString savetmp = wxT("savetmp");
-	const wxString lasttmp = wxT("lasttmp");
 	//configuration default values;
 	const wxString url_def = wxT("http://agender.sourceforge.net/rss.xml");
 	// TODO (gabriel#1#): change to above value for release
@@ -37,6 +36,6 @@ namespace rssblocks
 	const wxString itemtp_def = wxT("default.rbi");
 	const unsigned updatetime_def = 10;
 	const bool savetmp_def = true;
-}//namespace rssblocks
+}
 
-#endif // RSSBLOCKSDEF_H
+#endif // _RSSBLOCKSDEF_H_
