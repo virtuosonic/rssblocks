@@ -47,7 +47,7 @@ RssBlocksCfgDlg::RssBlocksCfgDlg(wxEvtHandler* evt,wxWindow* parent,wxWindowID i
 			1,wxALIGN_CENTER_VERTICAL);
 	urlSizer->Add(new wxTextCtrl(this,ID_URL),1,wxEXPAND);
 	urlSizer->Add(new wxStaticText(this,wxID_ANY,_("Update every(minutes)")),
-			1,wxALIGN_CENTER_VERTICAL);
+			wxALIGN_CENTER_VERTICAL);
 	urlSizer->Add(new wxSpinCtrl(this,ID_UPTIME),1,wxEXPAND);
 	urlSizer->Add(new wxCheckBox(this,ID_SAVETMP,_("Save temporary files")),
 			1,wxEXPAND);

@@ -30,9 +30,9 @@ class rssitem
 		/**Returns the link of the item*/
 		const wxString& Getlink() {return m_link;}
 	private:
-		void Setlink(const wxString& val) {m_link = val;}
-		void Settitle(const wxString& val) {m_title = val;}
-		void Setdesc(const wxString& val) {m_desc = val;}
+		void Setlink(wxString val) {m_link = val;}
+		void Settitle(wxString val) {m_title = val;}
+		void Setdesc(wxString val) {m_desc = val;}
 		//Members
 		wxString m_desc;
 		wxString m_title;

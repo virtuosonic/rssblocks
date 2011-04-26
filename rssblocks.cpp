@@ -30,10 +30,11 @@
   *@author Gabriel Espinoza <a href="http://virtuosonic.users.sourceforge.net">virtuosonic at  sf_net</a>
   */
 
+// Registere the plugin with Code::Blocks.
 namespace rssblocks
 {
-// Register the plugin with Code::Blocks.
 PluginRegistrant<RssBlocksPlugin> reg(_T("rssblocks"));
+
 
 /**@page install_p Installation
   * To install Rss::Blocks follow this instructions
