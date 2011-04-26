@@ -20,6 +20,7 @@
 					<Add option="-mthreads" />
 					<Add option="-fmessage-length=0" />
 					<Add option="-fexceptions" />
+					<Add option="-Winvalid-pch" />
 					<Add option="-DBUILDING_PLUGIN" />
 					<Add option="-DHAVE_W32API_H" />
 					<Add option="-D__WXMSW__" />
@@ -116,7 +117,6 @@
 		<Unit filename="rsswindow.h">
 			<Option target="default" />
 		</Unit>
-		<Unit filename="virtuosonic.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
@@ -125,15 +125,6 @@
 				<search_path add="$(#cb)\src" />
 				<search_path add="$(#cb)" />
 			</debugger>
-			<DoxyBlocks>
-				<comment_style block="0" line="0" />
-				<doxyfile_project />
-				<doxyfile_build />
-				<doxyfile_warnings />
-				<doxyfile_output />
-				<doxyfile_dot />
-				<general />
-			</DoxyBlocks>
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

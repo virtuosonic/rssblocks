@@ -12,11 +12,7 @@
 #include <wx/html/htmlwin.h>
 #include <wx/timer.h>
 #include "rsschannel.h"
-#include "virtuosonic.hpp"
 
-namespace rssblocks {
-using virtuosonic::rsschannel;
-using virtuosonic::wxException;
 /**@brief Rss::Blocks window
   *
   * This is simply a html window,
@@ -44,7 +40,7 @@ class rsswindow : public wxHtmlWindow
 		//update window
 		void Update(rsschannel* channel);
 		//generate html code
-		wxString BuildHtml(rsschannel* channel) throw (wxException);
+		wxString BuildHtml(rsschannel* channel) throw (int);
 		//const
 		static const long ID_RSSTIMER;
 		static const long ID_RSSLINK;
@@ -53,6 +49,5 @@ class rsswindow : public wxHtmlWindow
 		wxTimer timer1;
 	DECLARE_EVENT_TABLE();
 };
-}//namespace rssblocks
 
 #endif // RSSWINDOW_H
